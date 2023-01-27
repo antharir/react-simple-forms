@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import DisplayStudent from "./Components/DisplayStudent";
+import RegisterStudent from "./Components/RegisterStudent";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import "./App.css";
+
+export class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      studentList: [],
+    };
+  }
+
+  registerStudent = (student) => {
+    this.setState({
+      studentList: [...this.state.studentList, student],
+    });
+  };
+
+  render() {
+    let tableData = this.state.studentList.map((reg) => (
+      <DisplayStudent student={reg} />
+    ));
+
+    return (
+      <div>
+        <div className="center-screen">
+          <RegisterStudent registerStudentHandler={this.registerStudent} />
+        </div>
+
+        <div className="center-screen">
+          <table id="students">
+            <tr>
+              <th>Name</th>
+              <th>Country</th>
+              <th>Describe</th>
+            </tr>
+            {tableData}
+          </table>
+        </div>
+      </div>
+    );
+  }
 }
-
 export default App;
